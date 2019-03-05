@@ -37,11 +37,12 @@
 
 <form action="controller" method="post">
     <input type="hidden" name="command" value="save_new_dish">
-    ${name}:
-    <input type="text" name="name" value=""/>
+    <input type="hidden" name="editedDishId" value="${editedDish.id}">
+${name}:
+    <input type="text" name="name" value="${editedDish.name}"/>
     <br/>
     ${description}:
-    <input type="text" name="description" value=""/>
+    <input type="text" name="description" value="${editedDish.description}"/>
     <br/>
     ${type}
     <select size="1" name="type">
@@ -53,10 +54,10 @@
     </select>
     <br/>
     ${weight}:
-    <input type="number" name="weight" value=""/>
+    <input type="number" name="weight" value="${editedDish.weight}"/>
     <br/>
     ${price}:
-    <input type="number" name="price" value=""/>
+    <input type="number" name="price" value="${editedDish.price}"/>
     <br/>
 
     <input type="submit" name="submit" value=${submit}>

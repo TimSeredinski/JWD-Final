@@ -14,27 +14,26 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-public class GoToDefaultPageCommand implements Command {
-
+public class DishesRedirectCommand implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        String url = CreatorFullURL.create(request);
+        request.getSession(true).setAttribute("prev_request", url);
 
         ServiceProvider provider = ServiceProvider.getInstance();
         DishService dishService = provider.getDishService();
         List<Dish> dishes;
         try {
             dishes = dishService.getByType(Dish.DishType.PIZZA);
+            dishes.addAll(dishService.getByType(Dish.DishType.BURGER));
+            dishes.addAll(dishService.getByType(Dish.DishType.DESSERT));
             request.setAttribute("dishes", dishes);
         } catch (ServiceException e) {
             request.setAttribute("error", "Can't display dishes");
         }
 
-        String url = CreatorFullURL.create(request);
-        request.getSession(true).setAttribute("prev_request", url);
-
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/default.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/dishes.jsp");
         dispatcher.forward(request, response);
-
     }
-
 }

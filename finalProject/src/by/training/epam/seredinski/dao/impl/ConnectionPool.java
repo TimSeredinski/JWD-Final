@@ -1,6 +1,6 @@
 package by.training.epam.seredinski.dao.impl;
 
-import by.training.epam.seredinski.exception.DaoException;
+import by.training.epam.seredinski.exception.ConnectionPoolException;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
@@ -33,8 +33,8 @@ public final class ConnectionPool {
             for (int i = 0; i < POOL_SIZE; i++) {
                 connectionQueue.add(createConnection());
             }
-        } catch (ClassNotFoundException | DaoException e) {
-            throw new RuntimeException(e);
+        } catch (ClassNotFoundException | ConnectionPoolException e) {
+            throw new ConnectionPoolException(e);
         }
     }
 
@@ -46,13 +46,13 @@ public final class ConnectionPool {
         return SingletonHandler.INSTANCE;
     }
 
-    private PooledConnection createConnection() throws DaoException {
+    private PooledConnection createConnection() throws ConnectionPoolException {
         PooledConnection pooledConnection = null;
         try {
             Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
             pooledConnection = new PooledConnection(connection);
         } catch (SQLException e) {
-            throw new DaoException("Error in createConnection()", e);
+            throw new ConnectionPoolException("Error in createConnection()", e);
         }
         return pooledConnection;
     }
@@ -70,18 +70,18 @@ public final class ConnectionPool {
         }
     }
 
-    public Connection takeConnection() throws DaoException {
-        Connection connection = null;
+    public Connection takeConnection() throws ConnectionPoolException {
+        Connection connection;
         try {
             connection = connectionQueue.take();
             givenAwayConQueue.add(connection);
         } catch (InterruptedException e) {
-            throw new DaoException("Error connecting to the data source.", e);
+            throw new ConnectionPoolException("Error connecting to the data source.", e);
         }
         return connection;
     }
 
-    /*public void closeConnection(Connection con, Statement st, ResultSet rs) {
+    public void closeConnection(Connection con, Statement st, ResultSet rs) {
         try {
             con.close();
         } catch (SQLException e) {
@@ -110,7 +110,7 @@ public final class ConnectionPool {
         } catch (SQLException e) {
             logger.log(Level.ERROR, "Statement isn't closed.");
         }
-    }*/
+    }
 
     private void closeConnectionsQueue(BlockingQueue<Connection> queue)
             throws SQLException {

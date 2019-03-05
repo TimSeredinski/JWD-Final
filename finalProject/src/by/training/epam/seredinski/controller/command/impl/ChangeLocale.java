@@ -21,7 +21,6 @@ public class ChangeLocale implements Command {
 		session = request.getSession(true);
 		session.setAttribute("local", newLocale);
 		
-		
 		String url = (String)request.getSession(false).getAttribute("prev_request");
 		response.sendRedirect(url);
 	}

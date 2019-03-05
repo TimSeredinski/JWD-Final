@@ -1,16 +1,18 @@
 package by.training.epam.seredinski.dao.impl;
 
-import by.training.epam.seredinski.dao.util.ConnectionUtil;
-import by.training.epam.seredinski.exception.DaoException;
 import by.training.epam.seredinski.dao.UserDAO;
 import by.training.epam.seredinski.entity.User;
+import by.training.epam.seredinski.exception.DaoException;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class SQLUserDAO implements UserDAO {
 
-    private static final String CREATE_USER = "INSERT INTO users (name, surname, mail, login, password) VALUES (?,?,?,?,?)";
-    private static final String QUERY_CHECK_CREDENTIONALS = "SELECT * FROM users WHERE login=? and password=?";
+    protected static final String CREATE_USER = "INSERT INTO users (name, surname, mail, login, password) VALUES (?,?,?,?,?)";
+    protected static final String QUERY_CHECK_CREDENTIALS = "SELECT * FROM users WHERE login=? and password=?";
 
     @Override
     public User authentification(String userLogin, String userPassword) throws DaoException {
@@ -19,7 +21,7 @@ public class SQLUserDAO implements UserDAO {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            statement = connection.prepareStatement(QUERY_CHECK_CREDENTIONALS);
+            statement = connection.prepareStatement(QUERY_CHECK_CREDENTIALS);
             statement.setString(1, userLogin);
             statement.setString(2, userPassword);
 
@@ -32,7 +34,7 @@ public class SQLUserDAO implements UserDAO {
         } catch (SQLException e) {
             throw new DaoException(e);
         } finally {
-            ConnectionUtil.closeConnection(resultSet, statement, connection);
+            ConnectionPool.getInstance().closeConnection(connection, statement, resultSet);
         }
 
         return user;
@@ -66,11 +68,16 @@ public class SQLUserDAO implements UserDAO {
             statement.setString(5, userData.getPassword());
             statement.executeUpdate();
             connection.commit();
+            connection.setAutoCommit(true);
         } catch (SQLException e) {
-            ConnectionUtil.rollBackConnection(connection);
+            try {
+                connection.rollback();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
             throw new DaoException(e);
         } finally {
-            ConnectionUtil.closeConnection(resultSet, statement, connection);
+            ConnectionPool.getInstance().closeConnection(connection, statement);
         }
 
     }

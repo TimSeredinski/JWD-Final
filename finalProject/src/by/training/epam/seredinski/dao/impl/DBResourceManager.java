@@ -4,7 +4,10 @@ import java.util.ResourceBundle;
 
 public class DBResourceManager {
     private final static DBResourceManager instance = new DBResourceManager();
-    private ResourceBundle bundle = ResourceBundle.getBundle("resources.db");
+    private final static String BASE_NAME = "resources.db";
+
+    private ResourceBundle bundle = ResourceBundle.getBundle(BASE_NAME);
+
     public static DBResourceManager getInstance() {
         return instance;
     }

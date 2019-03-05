@@ -48,9 +48,9 @@ public class AuthorizationCommand implements Command {
             } else {
                 request.setAttribute("user", user);
                 page = MAIN_PAGE;
-                String role = "admin";
-                HttpSession session = request.getSession(true);
-                session.setAttribute("role", role);
+//                String role = "admin";
+//                HttpSession session = request.getSession(true);
+//                session.setAttribute("role", role);
             }
         } catch (ServiceException e) {
             request.setAttribute("error", "Login or Password Error");
