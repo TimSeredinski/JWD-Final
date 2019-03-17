@@ -6,8 +6,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
     <title>Insert title here</title>
+    <c:import url="/WEB-INF/jsp/links.jsp"/>
 </head>
 <body>
 <fmt:setLocale value="${sessionScope.local}"/>
@@ -21,20 +21,7 @@
 <fmt:message bundle="${loc}" key="locale.default.locale_button.en" var="locale_button_en"/>
 <fmt:message bundle="${loc}" key="locale.default.main_page" var="main_page"/>
 <fmt:message bundle="${loc}" key="locale.button.submit" var="submit"/>
-
-<div align="right">
-    <form action="controller" method="post">
-        <input type="hidden" name="command" value="change_locale">
-        <input type="hidden" name="locale" value="ru">
-        <input type="submit" name="${locale_button_ru}" value="${locale_button_ru}"/>
-    </form>
-    <form action="controller" method="post">
-        <input type="hidden" name="command" value="change_locale">
-        <input type="hidden" name="locale" value="en">
-        <input type="submit" name="${locale_button_en}" value="${locale_button_en}"/>
-    </form>
-</div>
-
+<c:import url="header.jsp"/>
 <form action="controller" method="post">
     <input type="hidden" name="command" value="save_new_dish">
     <input type="hidden" name="editedDishId" value="${editedDish.id}">
@@ -64,7 +51,7 @@ ${name}:
 </form>
 
 <h3>
-    <c:out value="${requestScope.error}"/>
+    <c:out value="${sessionScope.error}"/>
 </h3>
 <h2>
     <a href="controller?command=go_to_default">${main_page}</a>

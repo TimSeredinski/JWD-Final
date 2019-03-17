@@ -17,7 +17,12 @@ public class SQLDishDAO implements DishDAO {
     protected static final String UPDATE_DISH = "UPDATE dishes SET name=?, description=?, type=?, weight=?, price=? WHERE id=?";
     protected static final String GET_DISHES_BY_TYPE = "SELECT * FROM dishes WHERE type=?";
     protected static final String GET_DISHES_BY_ID = "SELECT * FROM dishes WHERE id=?";
-
+    private static final String ID = "id";
+    private static final String NAME = "name";
+    private static final String DESCRIPTION = "description";
+    private static final String TYPE = "type";
+    private static final String WEIGHT = "weight";
+    private static final String PRICE = "price";
 
     @Override
     public void createDish(Dish dish) throws DaoException {
@@ -111,12 +116,12 @@ public class SQLDishDAO implements DishDAO {
     }
 
     private Dish getDishWithResultSet(ResultSet resultSet) throws SQLException {
-        int id = resultSet.getInt("id");
-        String name = resultSet.getString("name");
-        String description = resultSet.getString("description");
-        int weight = resultSet.getInt("weight");
-        int price = resultSet.getInt("price");
-        Dish.DishType type = Dish.DishType.valueOf(resultSet.getString("type"));
+        int id = resultSet.getInt(ID);
+        String name = resultSet.getString(NAME);
+        String description = resultSet.getString(DESCRIPTION);
+        int weight = resultSet.getInt(WEIGHT);
+        int price = resultSet.getInt(PRICE);
+        Dish.DishType type = Dish.DishType.valueOf(resultSet.getString(TYPE));
         return new Dish(id, name, description, type, weight, price);
     }
 

@@ -28,7 +28,7 @@ public class SQLUserDAO implements UserDAO {
             resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                user = createUser(resultSet);
+                user = createUser(resultSet); // !!! Переделать
             }
 
         } catch (SQLException e) {
@@ -41,13 +41,15 @@ public class SQLUserDAO implements UserDAO {
     }
 
 
-    private User createUser(ResultSet rs) throws SQLException {
+    private User createUser(ResultSet resultSet) throws SQLException {
         User user = new User();
-
-        user.setId(rs.getInt("id"));
-        user.setName(rs.getString("name"));
-        //....
-
+        user.setId(resultSet.getInt("id"));
+        user.setName(resultSet.getString("name"));
+        user.setSurname(resultSet.getString("surname"));
+        user.setMail(resultSet.getString("mail"));
+        user.setLogin(resultSet.getString("login"));
+        user.setPassword(resultSet.getString("password"));
+        user.setRole(User.UserRole.valueOf(resultSet.getString("role")));
         return user;
 
     }
@@ -56,7 +58,6 @@ public class SQLUserDAO implements UserDAO {
     public void registration(User userData) throws DaoException {
         Connection connection = ConnectionPool.getInstance().takeConnection();
         PreparedStatement statement = null;
-        ResultSet resultSet = null;
 
         try {
             connection.setAutoCommit(false);

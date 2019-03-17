@@ -6,8 +6,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
     <title>Insert title here</title>
+    <c:import url="/WEB-INF/jsp/links.jsp"/>
 </head>
 <body>
 <fmt:setLocale value="${sessionScope.local}"/>
@@ -54,7 +54,7 @@
     <input type="text" name="surname" value=""/>
     <br/>
 
-    <input type="submit" name="submit" value=${submit}>
+    <input type="submit" value=${submit}>
 </form>
 
 <h3>

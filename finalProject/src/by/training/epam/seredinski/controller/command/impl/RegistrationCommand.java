@@ -1,5 +1,6 @@
 package by.training.epam.seredinski.controller.command.impl;
 
+import by.training.epam.seredinski.constant.Constants;
 import by.training.epam.seredinski.controller.command.Command;
 import by.training.epam.seredinski.controller.command.util.CreatorFullURL;
 import by.training.epam.seredinski.entity.User;
@@ -19,50 +20,38 @@ public class RegistrationCommand implements Command {
 
     private final static Logger logger = Logger.getLogger(RegistrationCommand.class);
 
-    private static final String PARAMETER_EMAIL = "email";
-    private static final String PARAMETER_PASSWORD = "password";
-    private static final String PARAMETER_LOGIN = "login";
-    private static final String PARAMETER_NAME = "name";
-    private static final String PARAMETER_SURNAME = "surname";
-
-    private static final String MAIN_PAGE = "/WEB-INF/jsp/main.jsp";
-    private static final String REGISTRATION_PAGE = "/WEB-INF/jsp/registration.jsp";
-
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String page;
-        String email = request.getParameter(PARAMETER_EMAIL);
-        String password = request.getParameter(PARAMETER_PASSWORD);
-        String login = request.getParameter(PARAMETER_LOGIN);
-        String name = request.getParameter(PARAMETER_NAME);
-        String surname = request.getParameter(PARAMETER_SURNAME);
+        String email = request.getParameter(Constants.PARAMETER_EMAIL);
+        String password = request.getParameter(Constants.PARAMETER_PASSWORD);
+        String login = request.getParameter(Constants.PARAMETER_LOGIN);
+        String name = request.getParameter(Constants.PARAMETER_NAME);
+        String surname = request.getParameter(Constants.PARAMETER_SURNAME);
 
         ServiceProvider provider = ServiceProvider.getInstance();
         ClientService service = provider.getClientService();
-        User user = null;
+        User user;
 
         try {
             user = service.registration(email, password, login, name, surname);
             if (user == null) {
                 request.setAttribute("error", "Can't create user");
-                page = REGISTRATION_PAGE;
+                page = Constants.REGISTRATION_PAGE;
             } else {
                 request.setAttribute("user", user);
-                page = MAIN_PAGE;
+                request.getSession().setAttribute("userRole", user.getRole());
+                request.getSession().setAttribute("userId", user.getId());
+                page = Constants.REDIRECT_MAIN_PAGE;
+                System.out.println("create new user");
             }
-
         } catch (ServiceException e) {
             request.setAttribute("error", "Something wrong in RegistrationCommand");
-            page = REGISTRATION_PAGE;
+            page = Constants.REGISTRATION_PAGE;
             logger.log(Level.ERROR, "Exception in RegistrationCommand");
         }
 
-        String url = CreatorFullURL.create(request);
-        request.getSession(true).setAttribute("prev_request", url);
-        System.out.println("create new user");
-
-        RequestDispatcher dispatcher = request.getRequestDispatcher(page);
-        dispatcher.forward(request, response);
+        response.sendRedirect(Constants.REDIRECT_COMMON + page);
 
     }
 

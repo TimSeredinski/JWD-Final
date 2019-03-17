@@ -3,7 +3,12 @@ package by.training.epam.seredinski.entity;
 import java.io.Serializable;
 
 public class User implements Serializable {
+
     private static final long serialVersionUID = 4905859720052168770L;
+
+    public enum UserRole {
+        ADMIN, CLIENT, GUEST, COURIER
+    }
 
     private int id;
     private String name;
@@ -11,6 +16,7 @@ public class User implements Serializable {
     private String mail;
     private String login;
     private String password;// not good d.
+    private UserRole role;
 
     public User() {
     }
@@ -21,6 +27,16 @@ public class User implements Serializable {
         this.mail = mail;
         this.login = login;
         this.password = password;
+    }
+
+    public User(int id, String name, String surname, String mail, String login, String password, UserRole role) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.mail = mail;
+        this.login = login;
+        this.password = password;
+        this.role = role;
     }
 
     public int getId() {
@@ -71,6 +87,14 @@ public class User implements Serializable {
         this.mail = mail;
     }
 
+    public UserRole getRole() {
+        return role;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -81,6 +105,7 @@ public class User implements Serializable {
         result = prime * result + ((mail == null) ? 0 : mail.hashCode());
         result = prime * result + ((password == null) ? 0 : password.hashCode());
         result = prime * result + ((surname == null) ? 0 : surname.hashCode());
+        result = prime * result + ((role == null) ? 0 : role.hashCode());
         return result;
     }
 
@@ -111,6 +136,11 @@ public class User implements Serializable {
             if (other.mail != null)
                 return false;
         } else if (!mail.equals(other.mail))
+            return false;
+        if (role == null) {
+            if (other.role != null)
+                return false;
+        } else if (!role.equals(other.role))
             return false;
         if (surname == null) {
             if (other.surname != null)

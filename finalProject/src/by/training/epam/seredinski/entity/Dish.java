@@ -1,6 +1,10 @@
 package by.training.epam.seredinski.entity;
 
-public class Dish {
+import java.io.Serializable;
+
+public class Dish implements Serializable {
+
+    private static final long serialVersionUID = 4905859720052168340L;
 
     public enum DishType {
         PIZZA, BURGER, DESSERT
@@ -12,6 +16,7 @@ public class Dish {
     private DishType type;
     private int weight;
     private int price;
+    private int amount = 1;
 
     public Dish() {
     }
@@ -79,6 +84,22 @@ public class Dish {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
+    public void incAmount(){
+        this.amount++;
+    }
+
+    public void decAmount(){
+        this.amount--;
     }
 
     @Override

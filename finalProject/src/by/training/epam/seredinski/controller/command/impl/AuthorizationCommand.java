@@ -1,5 +1,6 @@
 package by.training.epam.seredinski.controller.command.impl;
 
+import by.training.epam.seredinski.constant.Constants;
 import by.training.epam.seredinski.controller.command.Command;
 import by.training.epam.seredinski.controller.command.util.CreatorFullURL;
 import by.training.epam.seredinski.entity.User;
@@ -19,50 +20,32 @@ public class AuthorizationCommand implements Command {
 
     private final static Logger logger = Logger.getLogger(AuthorizationCommand.class);
 
-    private static final String PARAMETER_LOGIN = "login";
-    private static final String PARAMETER_PASSWORD = "password";
-
-    private static final String MAIN_PAGE = "/WEB-INF/jsp/main.jsp";
-    private static final String DEFAULT_PAGE = "/WEB-INF/jsp/default.jsp";
-
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String login;
-        String password;
+        String login = request.getParameter(Constants.PARAMETER_LOGIN);
+        String password = request.getParameter(Constants.PARAMETER_PASSWORD);
 
-        login = request.getParameter(PARAMETER_LOGIN);
-        password = request.getParameter(PARAMETER_PASSWORD);
-
+        System.out.println(login + password);
         ServiceProvider provider = ServiceProvider.getInstance();
         ClientService service = provider.getClientService();
 
-        User user = null;
         String page;
         try {
-            user = service.authorization(login, password);
+            User user = service.authorization(login, password);
 
             if (user == null) {
                 request.setAttribute("error", "login or password error");
-                page = DEFAULT_PAGE;
             } else {
                 request.setAttribute("user", user);
-                page = MAIN_PAGE;
-//                String role = "admin";
-//                HttpSession session = request.getSession(true);
-//                session.setAttribute("role", role);
+                request.getSession().setAttribute("userRole", user.getRole());
+                request.getSession().setAttribute("userId", user.getId());
             }
         } catch (ServiceException e) {
             request.setAttribute("error", "Login or Password Error");
             logger.error("Exception in AuthorizationCommand", e);
-            page = DEFAULT_PAGE;
         }
-
-//        String url = CreatorFullURL.create(request);
-//        request.getSession(true).setAttribute("prev_request", url);
-
-        RequestDispatcher dispatcher = request.getRequestDispatcher(page);
-        dispatcher.forward(request, response);
+        response.sendRedirect(Constants.REDIRECT_COMMON + Constants.REDIRECT_MAIN_PAGE);
 
     }
 
