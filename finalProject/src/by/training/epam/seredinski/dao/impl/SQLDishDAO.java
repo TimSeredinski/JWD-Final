@@ -1,5 +1,6 @@
 package by.training.epam.seredinski.dao.impl;
 
+import by.training.epam.seredinski.constant.Constants;
 import by.training.epam.seredinski.dao.DishDAO;
 import by.training.epam.seredinski.entity.Dish;
 import by.training.epam.seredinski.exception.DaoException;
@@ -17,12 +18,6 @@ public class SQLDishDAO implements DishDAO {
     protected static final String UPDATE_DISH = "UPDATE dishes SET name=?, description=?, type=?, weight=?, price=? WHERE id=?";
     protected static final String GET_DISHES_BY_TYPE = "SELECT * FROM dishes WHERE type=?";
     protected static final String GET_DISHES_BY_ID = "SELECT * FROM dishes WHERE id=?";
-    private static final String ID = "id";
-    private static final String NAME = "name";
-    private static final String DESCRIPTION = "description";
-    private static final String TYPE = "type";
-    private static final String WEIGHT = "weight";
-    private static final String PRICE = "price";
 
     @Override
     public void createDish(Dish dish) throws DaoException {
@@ -40,9 +35,9 @@ public class SQLDishDAO implements DishDAO {
             try {
                 connection.rollback();
             } catch (SQLException e1) {
-                e1.printStackTrace();
+                throw new DaoException("Exception in SQLDishDAO.save()", e);
             }
-            throw new DaoException(e);
+            throw new DaoException("Exception in SQLDishDAO.save()", e);
         } finally {
             ConnectionPool.getInstance().closeConnection(connection, statement);
         }
@@ -116,12 +111,12 @@ public class SQLDishDAO implements DishDAO {
     }
 
     private Dish getDishWithResultSet(ResultSet resultSet) throws SQLException {
-        int id = resultSet.getInt(ID);
-        String name = resultSet.getString(NAME);
-        String description = resultSet.getString(DESCRIPTION);
-        int weight = resultSet.getInt(WEIGHT);
-        int price = resultSet.getInt(PRICE);
-        Dish.DishType type = Dish.DishType.valueOf(resultSet.getString(TYPE));
+        int id = resultSet.getInt(Constants.PARAMETER_ID);
+        String name = resultSet.getString(Constants.PARAMETER_NAME);
+        String description = resultSet.getString(Constants.PARAMETER_DESCRIPTION);
+        int weight = resultSet.getInt(Constants.PARAMETER_WEIGHT);
+        int price = resultSet.getInt(Constants.PARAMETER_PRICE);
+        Dish.DishType type = Dish.DishType.valueOf(resultSet.getString(Constants.PARAMETER_TYPE));
         return new Dish(id, name, description, type, weight, price);
     }
 

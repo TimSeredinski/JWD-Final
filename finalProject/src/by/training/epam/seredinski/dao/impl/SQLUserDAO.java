@@ -28,7 +28,7 @@ public class SQLUserDAO implements UserDAO {
             resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                user = createUser(resultSet); // !!! Переделать
+                user = createUser(resultSet);
             }
 
         } catch (SQLException e) {

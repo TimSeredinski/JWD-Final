@@ -17,7 +17,7 @@ public class SaveNewDishCommand implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String id = request.getParameter(Constants.PARAMETER_ID);
+        String id = request.getParameter(Constants.PARAMETER_EDITED_DISH_ID);
         String page;
         String name = request.getParameter(Constants.PARAMETER_NAME);
         String description = request.getParameter(Constants.PARAMETER_DESCRIPTION);
