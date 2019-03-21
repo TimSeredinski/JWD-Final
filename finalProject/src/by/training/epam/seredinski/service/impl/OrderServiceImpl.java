@@ -1,6 +1,7 @@
 package by.training.epam.seredinski.service.impl;
 
 import by.training.epam.seredinski.dao.DAOProvider;
+import by.training.epam.seredinski.dao.DishDAO;
 import by.training.epam.seredinski.dao.OrderDAO;
 import by.training.epam.seredinski.entity.Dish;
 import by.training.epam.seredinski.entity.Order;
@@ -12,6 +13,7 @@ import by.training.epam.seredinski.service.ServiceProvider;
 
 import java.util.Calendar;
 import java.util.LinkedHashSet;
+import java.util.List;
 
 public class OrderServiceImpl implements OrderService {
     @Override
@@ -23,6 +25,22 @@ public class OrderServiceImpl implements OrderService {
         OrderDAO orderDAO = provider.getOrderDAO();
         try {
             orderDAO.save(new Order(dateTime, userId, addressId, dishes));
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public List<Order> getOrdersByUserId(int userId) throws ServiceException {
+        DAOProvider provider = DAOProvider.getInstance();
+        OrderDAO orderDAO = provider.getOrderDAO();
+        DishDAO dishDAO = provider.getDishDAO();
+        try {
+            List<Order> orders = orderDAO.getOrdersByUserId(userId);
+            for(Order order : orders){
+                order.setDishes(dishDAO.getOrderDishes(order.getId()));
+            }
+            return orders;
         } catch (DaoException e) {
             throw new ServiceException(e);
         }

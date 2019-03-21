@@ -27,12 +27,6 @@ public class SaveNewDishCommand implements Command {
         Dish.DishType type = Dish.DishType.valueOf(request.getParameter("type").toUpperCase());
 
         HttpSession session = request.getSession(false);
-//        if (session == null) {
-//        }
-//		String role = (String) session.getAttribute("role");
-//		if (!role.equals("admin")) {
-//		}
-//         Service (LibraryService)  service.save(b);  mysql id
 
         ServiceProvider provider = ServiceProvider.getInstance();
         DishService service = provider.getDishService();

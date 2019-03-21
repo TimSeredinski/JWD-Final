@@ -17,8 +17,16 @@ public class Order implements Serializable {
     private int userId;
     private int addressId;
     private LinkedHashSet<Dish> dishes;
+    private int orderPrice;
 
     public Order() {
+    }
+
+    public Order(int id, Calendar dateTime, int userId, int addressId) {
+        this.id = id;
+        this.dateTime = dateTime;
+        this.userId = userId;
+        this.addressId = addressId;
     }
 
     public Order(Calendar dateTime, int userId, int addressId, LinkedHashSet<Dish> dishes) {
@@ -82,5 +90,13 @@ public class Order implements Serializable {
 
     public void setDishes(LinkedHashSet<Dish> dishes) {
         this.dishes = dishes;
+    }
+
+    public int getOrderPrice() {
+        return orderPrice;
+    }
+
+    public void setOrderPrice(int orderPrice) {
+        this.orderPrice = orderPrice;
     }
 }

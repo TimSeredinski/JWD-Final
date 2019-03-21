@@ -11,7 +11,7 @@ import java.sql.SQLException;
 
 public class SQLUserDAO implements UserDAO {
 
-    protected static final String CREATE_USER = "INSERT INTO users (name, surname, mail, login, password) VALUES (?,?,?,?,?)";
+    protected static final String CREATE_USER = "INSERT INTO users (name, surname, mail, login, password, role) VALUES (?,?,?,?,?,?)";
     protected static final String QUERY_CHECK_CREDENTIALS = "SELECT * FROM users WHERE login=? and password=?";
 
     @Override
@@ -24,9 +24,7 @@ public class SQLUserDAO implements UserDAO {
             statement = connection.prepareStatement(QUERY_CHECK_CREDENTIALS);
             statement.setString(1, userLogin);
             statement.setString(2, userPassword);
-
             resultSet = statement.executeQuery();
-
             if (resultSet.next()) {
                 user = createUser(resultSet);
             }
@@ -59,6 +57,7 @@ public class SQLUserDAO implements UserDAO {
         Connection connection = ConnectionPool.getInstance().takeConnection();
         PreparedStatement statement = null;
 
+        System.out.println("reg");
         try {
             connection.setAutoCommit(false);
             statement = connection.prepareStatement(CREATE_USER);
@@ -67,6 +66,7 @@ public class SQLUserDAO implements UserDAO {
             statement.setString(3, userData.getMail());
             statement.setString(4, userData.getLogin());
             statement.setString(5, userData.getPassword());
+            statement.setString(6, String.valueOf(userData.getRole()));
             statement.executeUpdate();
             connection.commit();
             connection.setAutoCommit(true);
@@ -74,7 +74,7 @@ public class SQLUserDAO implements UserDAO {
             try {
                 connection.rollback();
             } catch (SQLException e1) {
-                e1.printStackTrace();
+                throw new DaoException();
             }
             throw new DaoException(e);
         } finally {

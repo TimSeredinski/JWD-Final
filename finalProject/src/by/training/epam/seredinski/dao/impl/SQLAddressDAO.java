@@ -15,7 +15,6 @@ public class SQLAddressDAO implements AddressDAO {
 
     protected static final String CREATE_ADDRESS = "INSERT INTO address (city, street, house, flat, userId) VALUES (?,?,?,?,?)";
     protected static final String UPDATE_ADDRESS = "UPDATE address SET city=?, street=?, house=?, flat=? WHERE userId=?";
-//    private static final String SELECT_ID_BY_FIELDS = "SELECT id FROM address WHERE city=? AND street=? AND house=? AND flat=? AND userId=?";
     protected static final String GET_ADDRESS_BY_USER_ID = "SELECT * FROM address WHERE userId=?";
 
     @Override

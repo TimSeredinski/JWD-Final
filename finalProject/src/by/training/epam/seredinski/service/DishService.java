@@ -11,5 +11,6 @@ public interface DishService {
     List<Dish> getByType(Dish.DishType type) throws ServiceException;
     Dish getById(int id) throws ServiceException;
     Dish updateDish(int id, String name, String description, Dish.DishType type, int weight, int price) throws ServiceException;
+    void deleteDish(int dishId) throws ServiceException;
 
 }

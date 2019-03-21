@@ -23,7 +23,7 @@
 <fmt:message bundle="${loc}" key="locale.button.submit" var="submit"/>
 <c:import url="header.jsp"/>
 <form action="controller" method="post">
-    <input type="hidden" name="command" value="save_new_dish">
+    <input type="hidden" name="command" value="admin_save_new_dish">
     <input type="hidden" name="editedDishId" value="${editedDish.id}">
 ${name}:
     <input type="text" name="name" value="${editedDish.name}"/>

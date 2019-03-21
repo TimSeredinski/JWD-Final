@@ -6,7 +6,6 @@ public class CredentionalValidator {
 		return isLoginCorrect(login) && isPasswordCorrect(password);
 	}
 	
-	
 	private static boolean isLoginCorrect(String login) {
 		return true;
 	}

@@ -7,6 +7,6 @@ public interface ClientService {
 
     User authorization(String login, String password) throws ServiceException;
 
-    User registration(String email, String password, String login, String name, String surname) throws ServiceException;
+    User registration(String email, String password, String login, String name, String surname, User.UserRole role) throws ServiceException;
 
 }

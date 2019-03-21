@@ -29,7 +29,7 @@
 <c:import url="/WEB-INF/jsp/header.jsp"/>
 
 <form class="input-form" method="post" action="controller">
-    <input type="hidden" name="command" value="save_new_order">
+    <input type="hidden" name="command" value="client_save_new_order">
     <input type="text" class="form-control card-input" name="city" value="Minsk" readonly>
     <input type="text" pattern="^.{3,30}$" class="form-control card-input" name="street" value="${addr.street}"
            placeholder="${street}" required autofocus>

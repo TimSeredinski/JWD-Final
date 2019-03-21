@@ -10,14 +10,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 public class SQLDishDAO implements DishDAO {
 
     protected static final String CREATE_DISH = "INSERT INTO dishes (name, description, type, weight, price) VALUES (?,?,?,?,?)";
     protected static final String UPDATE_DISH = "UPDATE dishes SET name=?, description=?, type=?, weight=?, price=? WHERE id=?";
+    protected static final String DELETE_DISH = "DELETE FROM dishes WHERE id=?";
     protected static final String GET_DISHES_BY_TYPE = "SELECT * FROM dishes WHERE type=?";
     protected static final String GET_DISHES_BY_ID = "SELECT * FROM dishes WHERE id=?";
+    private static final String GET_DISHES_FOR_ORDER = "SELECT  d.id AS id, d.name AS name, d.type AS type, d.description AS description, d.weight AS weight, d.price AS price, od.count_dishes AS count_dishes FROM order_dish od LEFT JOIN dishes d ON od.dishId = d.id WHERE od.orderId=?";
 
     @Override
     public void createDish(Dish dish) throws DaoException {
@@ -60,11 +63,51 @@ public class SQLDishDAO implements DishDAO {
             try {
                 connection.rollback();
             } catch (SQLException e1) {
-                e1.printStackTrace();
+                throw new DaoException(e);
             }
             throw new DaoException(e);
         } finally {
             ConnectionPool.getInstance().closeConnection(connection, statement);
+        }
+    }
+
+    @Override
+    public LinkedHashSet<Dish> getOrderDishes(int orderId) throws DaoException {
+        Connection connection = ConnectionPool.getInstance().takeConnection();
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        LinkedHashSet<Dish> dishes = new LinkedHashSet<>();
+        try {
+            statement = connection.prepareStatement(GET_DISHES_FOR_ORDER);
+            statement.setInt(1, orderId);
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Dish dish = getDishWithResultSet(resultSet);
+                dish.setAmount(resultSet.getInt(Constants.PARAMETER_COUNT_OF_DISHES));
+                dishes.add(dish);
+            }
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        } finally {
+            ConnectionPool.getInstance().closeConnection(connection, statement, resultSet);
+        }
+        return dishes;
+    }
+
+    @Override
+    public void deleteDish(int dishId) throws DaoException {
+        Connection connection = ConnectionPool.getInstance().takeConnection();
+        PreparedStatement statement;
+
+        try {
+            connection.setAutoCommit(false);
+            statement = connection.prepareStatement(DELETE_DISH);
+            statement.setInt(1, dishId);
+            statement.executeUpdate();
+            connection.commit();
+            connection.setAutoCommit(true);
+        } catch (SQLException e) {
+            throw new DaoException("Exception in SQLDishDAO.deleteDish()", e);
         }
     }
 

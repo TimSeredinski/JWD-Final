@@ -34,14 +34,12 @@ public class RegistrationCommand implements Command {
         User user;
 
         try {
-            user = service.registration(email, password, login, name, surname);
+            User.UserRole role = User.UserRole.CLIENT;
+            user = service.registration(email, password, login, name, surname, role);
             if (user == null) {
                 request.setAttribute("error", "Can't create user");
                 page = Constants.REGISTRATION_PAGE;
             } else {
-                request.setAttribute("user", user);
-                request.getSession().setAttribute("userRole", user.getRole());
-                request.getSession().setAttribute("userId", user.getId());
                 page = Constants.REDIRECT_MAIN_PAGE;
                 System.out.println("create new user");
             }

@@ -23,7 +23,6 @@ public class AuthorizationCommand implements Command {
         String login = request.getParameter(Constants.PARAMETER_LOGIN);
         String password = request.getParameter(Constants.PARAMETER_PASSWORD);
 
-        System.out.println(login + password);
         ServiceProvider provider = ServiceProvider.getInstance();
         ClientService service = provider.getClientService();
 
@@ -34,7 +33,6 @@ public class AuthorizationCommand implements Command {
             if (user == null) {
                 request.setAttribute("error", "login or password error");
             } else {
-                request.setAttribute("user", user);
                 request.getSession().setAttribute("userRole", user.getRole());
                 request.getSession().setAttribute("userId", user.getId());
             }

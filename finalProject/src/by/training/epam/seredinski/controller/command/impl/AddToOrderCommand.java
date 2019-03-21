@@ -44,9 +44,6 @@ public class AddToOrderCommand implements Command {
                 userOrder.add(dish);
             }
             int orderPrice = 0;
-            if (request.getSession().getAttribute("orderPrice") != null) {
-                orderPrice = (int) request.getSession().getAttribute("orderPrice");
-            }
             for (Dish dishFromOrder : userOrder) {
                 orderPrice += dishFromOrder.getAmount() * dishFromOrder.getPrice();
             }

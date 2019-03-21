@@ -49,9 +49,20 @@ public class DishServiceImpl implements DishService {
             System.out.println("DaoService update");
             dishDAO.updateDish(dish);
         } catch (DaoException e) {
-            e.printStackTrace();
+            throw new ServiceException(e);
         }
         return dish;
+    }
+
+    @Override
+    public void deleteDish(int dishId) throws ServiceException {
+        DAOProvider daoProvider = DAOProvider.getInstance();
+        DishDAO dishDAO = daoProvider.getDishDAO();
+        try {
+            dishDAO.deleteDish(dishId);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
     }
 
 

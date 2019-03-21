@@ -20,6 +20,7 @@
 <fmt:message bundle="${loc}" key="locale.default.registration" var="registration"/>
 <fmt:message bundle="${loc}" key="locale.default.menu" var="menu"/>
 <fmt:message bundle="${loc}" key="locale.default.order" var="order"/>
+<fmt:message bundle="${loc}" key="locale.default.history" var="history"/>
 <fmt:message bundle="${loc}" key="locale.default.main_page" var="main_page"/>
 <fmt:message bundle="${loc}" key="locale.default.logout" var="logout_button"/>
 <fmt:message bundle="${loc}" key="locale.dish.type.pizza" var="pizza"/>
@@ -69,7 +70,10 @@
             <c:choose>
             <c:when test="${userRole == 'CLIENT'}">
             <li class="nav-item">
-                <a class="nav-link" href="controller?command=go_to_order">${order}</a>
+                <a class="nav-link" href="controller?command=client_go_to_order">${order}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="controller?command=client_go_to_orders_history">${history}</a>
             </li>
             </c:when>
             </c:choose>
@@ -77,7 +81,6 @@
                 <form class="form-inline" action="controller" method="post">
                     <input type="hidden" name="command" value="change_locale">
                     <input type="hidden" name="locale" value="ru">
-                    <%--<input type="submit" name="${locale_button_ru}" value="${locale_button_ru}"/>--%>
                     <button class="btn btn-dark" type="submit">${locale_button_ru}</button>
                 </form>
             </li>
@@ -85,7 +88,6 @@
                 <form action="controller" method="post">
                     <input type="hidden" name="command" value="change_locale">
                     <input type="hidden" name="locale" value="en">
-                    <%--<input type="submit" name="${locale_button_en}" value="${locale_button_en}"/>--%>
                     <button class="btn btn-dark" type="submit">${locale_button_en}</button>
                 </form>
             </li>
@@ -112,6 +114,9 @@
                     </li>
                 </ul>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="controller?command=guest_go_to_registration_page">${registration}</a>
+            </li>
             </c:when>
             <c:when test="${userRole == 'CLIENT'|| userRole == 'ADMIN'}">
             <form action="controller" method="post">
@@ -120,10 +125,6 @@
             </form>
             </c:when>
             </c:choose>
-
-            <li class="nav-item">
-                <a class="nav-link" href="controller?command=go_to_registration_page">${registration}</a>
-            </li>
     </div>
 </nav>
 </body>

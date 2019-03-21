@@ -12,6 +12,7 @@
 <body>
 <fmt:setLocale value="${sessionScope.local}"/>
 <fmt:setBundle basename="resources.locale" var="loc"/>
+
 <fmt:message bundle="${loc}" key="locale.email_message" var="email"/>
 <fmt:message bundle="${loc}" key="locale.password_message" var="password"/>
 <fmt:message bundle="${loc}" key="locale.login_message" var="login"/>
@@ -22,22 +23,10 @@
 <fmt:message bundle="${loc}" key="locale.default.main_page" var="main_page"/>
 <fmt:message bundle="${loc}" key="locale.button.submit" var="submit"/>
 
-<div align="right">
-    <form action="controller" method="post">
-        <input type="hidden" name="command" value="change_locale">
-        <input type="hidden" name="locale" value="ru">
-        <input type="submit" name="${locale_button_ru}" value="${locale_button_ru}"/>
-    </form>
-    <form action="controller" method="post">
-        <input type="hidden" name="command" value="change_locale">
-        <input type="hidden" name="locale" value="en">
-        <input type="submit" name="${locale_button_en}" value="${locale_button_en}"/>
-    </form>
-</div>
-
+<c:import url="/WEB-INF/jsp/header.jsp"/>
 
 <form action="controller" method="post">
-    <input type="hidden" name="command" value="registration">
+    <input type="hidden" name="command" value="guest_registration">
     ${email}:
     <input type="text" name="email" value=""/>
     <br/>
@@ -57,9 +46,6 @@
     <input type="submit" value=${submit}>
 </form>
 
-<h3>
-    <c:out value="${requestScope.error}"/>
-</h3>
 <h2>
     <a href="controller?command=go_to_default">${main_page}</a>
 </h2>
