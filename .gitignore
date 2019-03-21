@@ -13,6 +13,8 @@
 out
 build
 bin
+web/js
+web/css
 
 target/
 log.txt
