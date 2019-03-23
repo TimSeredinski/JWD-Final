@@ -58,6 +58,7 @@ public class DishServiceImpl implements DishService {
     public void deleteDish(int dishId) throws ServiceException {
         DAOProvider daoProvider = DAOProvider.getInstance();
         DishDAO dishDAO = daoProvider.getDishDAO();
+        System.out.println("delete dish");
         try {
             dishDAO.deleteDish(dishId);
         } catch (DaoException e) {
@@ -81,6 +82,7 @@ public class DishServiceImpl implements DishService {
     public Dish getById(int id) throws ServiceException {
         DAOProvider daoProvider = DAOProvider.getInstance();
         DishDAO dishDAO = daoProvider.getDishDAO();
+        System.out.println("getById");
         try {
             return dishDAO.getById(id);
         } catch (DaoException e) {

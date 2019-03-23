@@ -17,7 +17,7 @@ public class SQLOrderDAO implements OrderDAO {
     private static final Logger logger = Logger.getLogger(SQLOrderDAO.class);
 
     protected static final String CREATE_ORDER = "INSERT INTO orders (date, userId, addressId) VALUES (?,?,?)";
-    protected static final String CREATE_ORDER_DISH = "INSERT INTO order_dish (orderId, dishId, count_dishes) VALUES (?,?,?)";
+    protected static final String CREATE_ORDER_DISH = "INSERT INTO worddish (orderId, dishId, count_dishes) VALUES (?,?,?)";
     protected static final String GET_ORDERS_BY_USER_ID = "SELECT * FROM orders WHERE userId=?";
 
     @Override
@@ -66,7 +66,7 @@ public class SQLOrderDAO implements OrderDAO {
             try {
                 connection.rollback();
             } catch (SQLException e1) {
-                throw new DaoException("Exception in SQLOrderDAO.save()", e);
+                throw new DaoException(e);
             }
             logger.error("Exception in SQLOrderDAO.save()", e);
             throw new DaoException("Exception in SQLOrderDAO.save()", e);

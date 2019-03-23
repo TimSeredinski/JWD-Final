@@ -28,17 +28,18 @@
 <fmt:message key="locale.street" bundle="${loc}" var="street"/>
 <c:import url="/WEB-INF/jsp/header.jsp"/>
 
-<form class="input-form" method="post" action="controller">
-    <input type="hidden" name="command" value="client_save_new_order">
-    <input type="text" class="form-control card-input" name="city" value="Minsk" readonly>
-    <input type="text" pattern="^.{3,30}$" class="form-control card-input" name="street" value="${addr.street}"
-           placeholder="${street}" required autofocus>
-    <input type="number" min="1" class="form-control card-input" name="house" value="${addr.house}"
-           placeholder="${house}" required>
-    <input type="number" min="1" class="form-control card-input" name="flat" value="${addr.flat}"
-           placeholder="${flat}" required>
-    <button class="btn btn-outline-success" type="submit">${make_order}</button>
-</form>
-
+<div class="container">
+    <form class="input-form" method="post" action="controller">
+        <input type="hidden" name="command" value="client_save_new_order">
+        <input type="text" class="form-control card-input" name="city" value="Minsk" readonly>
+        <input type="text" pattern="^.{3,30}$" class="form-control card-input" name="street" value="${addr.street}"
+               placeholder="${street}" required autofocus>
+        <input type="number" min="1" class="form-control card-input" name="house" value="${addr.house}"
+               placeholder="${house}" required>
+        <input type="number" min="1" class="form-control card-input" name="flat" value="${addr.flat}"
+               placeholder="${flat}" required>
+        <button class="btn btn-outline-success" type="submit">${make_order}</button>
+    </form>
+</div>
 </body>
 </html>

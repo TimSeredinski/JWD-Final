@@ -2,6 +2,7 @@ package by.training.epam.seredinski.controller.command.impl;
 
 import by.training.epam.seredinski.constant.Constants;
 import by.training.epam.seredinski.controller.command.Command;
+import by.training.epam.seredinski.encryption.Encryption;
 import by.training.epam.seredinski.entity.User;
 import by.training.epam.seredinski.exception.ServiceException;
 import by.training.epam.seredinski.service.ClientService;
@@ -21,12 +22,11 @@ public class AuthorizationCommand implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String login = request.getParameter(Constants.PARAMETER_LOGIN);
-        String password = request.getParameter(Constants.PARAMETER_PASSWORD);
+        String password = Encryption.encryptPassword(request.getParameter(Constants.PARAMETER_PASSWORD));
 
         ServiceProvider provider = ServiceProvider.getInstance();
         ClientService service = provider.getClientService();
 
-        String page;
         try {
             User user = service.authorization(login, password);
 

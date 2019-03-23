@@ -99,4 +99,16 @@ public class Order implements Serializable {
     public void setOrderPrice(int orderPrice) {
         this.orderPrice = orderPrice;
     }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", status=" + status +
+                ", userId=" + userId +
+                ", addressId=" + addressId +
+                ", dishes=" + dishes +
+                ", orderPrice=" + orderPrice +
+                '}';
+    }
 }

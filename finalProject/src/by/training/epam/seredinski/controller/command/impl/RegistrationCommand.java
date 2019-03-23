@@ -3,6 +3,7 @@ package by.training.epam.seredinski.controller.command.impl;
 import by.training.epam.seredinski.constant.Constants;
 import by.training.epam.seredinski.controller.command.Command;
 import by.training.epam.seredinski.controller.command.util.CreatorFullURL;
+import by.training.epam.seredinski.encryption.Encryption;
 import by.training.epam.seredinski.entity.User;
 import by.training.epam.seredinski.service.ClientService;
 import by.training.epam.seredinski.exception.ServiceException;
@@ -24,11 +25,11 @@ public class RegistrationCommand implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String page;
         String email = request.getParameter(Constants.PARAMETER_EMAIL);
-        String password = request.getParameter(Constants.PARAMETER_PASSWORD);
+        String password = Encryption.encryptPassword(request.getParameter(Constants.PARAMETER_PASSWORD));
         String login = request.getParameter(Constants.PARAMETER_LOGIN);
         String name = request.getParameter(Constants.PARAMETER_NAME);
         String surname = request.getParameter(Constants.PARAMETER_SURNAME);
-
+        System.out.println(surname);
         ServiceProvider provider = ServiceProvider.getInstance();
         ClientService service = provider.getClientService();
         User user;
@@ -44,8 +45,7 @@ public class RegistrationCommand implements Command {
                 System.out.println("create new user");
             }
         } catch (ServiceException e) {
-            request.setAttribute("error", "Something wrong in RegistrationCommand");
-            page = Constants.REGISTRATION_PAGE;
+            page = Constants.REDIRECT_REGISTRATION;
             logger.log(Level.ERROR, "Exception in RegistrationCommand");
         }
 

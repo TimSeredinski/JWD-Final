@@ -13,11 +13,10 @@ public class ValidateUtil {
     private static final String LOGIN = "^[a-zA-Z0-9_]{4,30}$";
 
     public static boolean validateUser(User user) {
-        System.out.println(check(user.getLogin(), LOGIN));
-        System.out.println(check(user.getName(), STRING_FIELD));
-        System.out.println(check(user.getSurname(), STRING_FIELD));
-        System.out.println(user.getMail());
-        System.out.println(check(user.getMail(), MAIL));
+        System.out.println(user.getLogin() + check(user.getLogin(), LOGIN));
+        System.out.println(user.getName() + check(user.getName(), STRING_FIELD));
+        System.out.println(user.getSurname() + check(user.getSurname(), STRING_FIELD));
+        System.out.println(user.getMail() + check(user.getMail(), MAIL));
         return (check(user.getLogin(), LOGIN) &&
                 check(user.getName(), STRING_FIELD) &&
                 check(user.getSurname(), STRING_FIELD) &&

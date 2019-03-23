@@ -32,9 +32,9 @@ public class SaveNewOrderCommand implements Command {
         ServiceProvider provider = ServiceProvider.getInstance();
         OrderService service = provider.getOrderService();
         try {
-            LinkedHashSet<Dish> dishes = (LinkedHashSet<Dish>) request.getSession().getAttribute("userOrder");
+            LinkedHashSet<Dish> dishes = (LinkedHashSet<Dish>) request.getSession().getAttribute(Constants.USER_ORDER);
             service.saveOrder(city, street, house, flat, userId, time, dishes);
-            request.getSession().setAttribute("userOrder", null);
+            request.getSession().setAttribute(Constants.USER_ORDER, null);
         } catch (ServiceException e) {
             logger.error("Exception in SaveNewOrderCommand", e);
         }

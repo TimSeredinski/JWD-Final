@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class OrdersHistoryRedirectCommand implements Command {
@@ -25,8 +26,8 @@ public class OrdersHistoryRedirectCommand implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String url = CreatorFullURL.create(request);
-        request.getSession(true).setAttribute("prev_request", url);
-        int userId = (int) request.getSession().getAttribute("userId");
+        request.getSession(true).setAttribute(Constants.PREV_REQUEST, url);
+        int userId = (int) request.getSession().getAttribute(Constants.PARAMETER_USER_ID);
         ServiceProvider provider = ServiceProvider.getInstance();
         OrderService service = provider.getOrderService();
         try {
@@ -39,8 +40,8 @@ public class OrdersHistoryRedirectCommand implements Command {
                 }
                 orderPrices.add(orderPrice);
             }
-            request.setAttribute("orderPrices", orderPrices);
-            request.setAttribute("userOrders", orders);
+            //request.setAttribute("orderPrices", orderPrices);
+            request.setAttribute(Constants.USER_ORDERS, orders);
         } catch (ServiceException e) {
             logger.error("Exception in AddToOrderCommand", e);
         }

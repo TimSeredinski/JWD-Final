@@ -21,15 +21,15 @@ public class DishesRedirectCommand implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String url = CreatorFullURL.create(request);
-        request.getSession(true).setAttribute("prev_request", url);
+        request.getSession(true).setAttribute(Constants.PREV_REQUEST, url);
 
         ServiceProvider provider = ServiceProvider.getInstance();
         DishService dishService = provider.getDishService();
-        Dish.DishType type = Dish.DishType.valueOf(request.getParameter("dishType").toUpperCase());
+        Dish.DishType type = Dish.DishType.valueOf(request.getParameter(Constants.PARAMETER_DISH_TYPE).toUpperCase());
         List<Dish> dishes;
         try {
             dishes = dishService.getByType(type);
-            request.setAttribute("dishes", dishes);
+            request.setAttribute(Constants.DISHES, dishes);
         } catch (ServiceException e) {
             request.setAttribute("error", "Can't display dishes");
         }

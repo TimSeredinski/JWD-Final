@@ -20,12 +20,12 @@ public class UpdateDishCommand implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String page;
         String url = CreatorFullURL.create(request);
-        request.getSession(true).setAttribute("prev_request", url);
+        request.getSession(true).setAttribute(Constants.PREV_REQUEST, url);
         ServiceProvider provider = ServiceProvider.getInstance();
         DishService service = provider.getDishService();
         try {
-            Dish dish = service.getById(Integer.parseInt(request.getParameter("editedDishId")));
-            request.getSession(true).setAttribute("editedDish", dish);
+            Dish dish = service.getById(Integer.parseInt(request.getParameter(Constants.PARAMETER_EDITED_DISH_ID)));
+            request.getSession(true).setAttribute(Constants.PARAMETER_EDITED_DISH_ID, dish);
             page = Constants.REDIRECT_CREATE_DISH_PAGE;
 
         } catch (ServiceException e) {

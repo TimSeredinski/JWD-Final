@@ -28,9 +28,8 @@
 
 <c:import url="/WEB-INF/jsp/header.jsp"/>
 
-<h1>${menu}</h1>
-
 <div class="container">
+    <h1>${menu}</h1>
     <table class="table">
         <thead class="thead-dark">
         <tr>
@@ -87,7 +86,14 @@
         </tbody>
         </c:forEach>
     </table>
-    <a href="controller?command=admin_go_to_add_new_dish_page">${add_dish}</a>
+    <c:choose>
+        <c:when test="${userRole == 'ADMIN'}">
+            <form action="controller" method="post">
+                <input type="hidden" name="command" value="admin_go_to_add_new_dish_page">
+                <button class="btn btn-primary" type="submit">${add_dish}</button>
+            </form>
+        </c:when>
+    </c:choose>
 </div>
 </body>
 </html>

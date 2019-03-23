@@ -22,20 +22,22 @@ public class DeleteDishCommand implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int dishId = Integer.parseInt(request.getParameter("deletedDishId"));
+        int dishId = Integer.parseInt(request.getParameter(Constants.PARAMETER_DELETED_DISH_ID));
         ServiceProvider provider = ServiceProvider.getInstance();
         DishService service = provider.getDishService();
         Dish dish;
         List<Dish> dishes;
+        System.out.println("Command");
         try {
             dish = service.getById(dishId);
+            System.out.println(dish);
             service.deleteDish(dishId);
             if (dish != null) {
                 dishes = service.getByType(dish.getType());
             } else {
                 dishes = service.getByType(Dish.DishType.PIZZA);
             }
-            request.setAttribute("dishes", dishes);
+            request.setAttribute(Constants.DISHES, dishes);
         } catch (ServiceException e) {
             logger.log(Level.ERROR, "Exception in DeleteDishCommand");
         }

@@ -21,6 +21,7 @@
 <fmt:message bundle="${loc}" key="locale.default.locale_button.en" var="locale_button_en"/>
 <fmt:message bundle="${loc}" key="locale.default.main_page" var="main_page"/>
 <fmt:message bundle="${loc}" key="locale.default.menu" var="menu"/>
+<fmt:message bundle="${loc}" key="locale.dish.make_order" var="make_order"/>
 
 <c:import url="/WEB-INF/jsp/header.jsp"/>
 

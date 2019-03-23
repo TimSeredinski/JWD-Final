@@ -21,8 +21,8 @@ public class DeleteDishFromOrder implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int dishId = Integer.parseInt(request.getParameter("deletedDishId"));
-        LinkedHashSet<Dish> dishes = (LinkedHashSet<Dish>) request.getSession().getAttribute("userOrder");
+        int dishId = Integer.parseInt(request.getParameter(Constants.PARAMETER_DELETED_DISH_ID));
+        LinkedHashSet<Dish> dishes = (LinkedHashSet<Dish>) request.getSession().getAttribute(Constants.USER_ORDER);
         boolean flag = false;
         for (Dish dish : dishes) {
             if (dishId == dish.getId()) {
@@ -45,15 +45,15 @@ public class DeleteDishFromOrder implements Command {
         }
         if (dishes.size() == 0) {
             dishes = null;
-            request.getSession().setAttribute("orderPrice", null);
+            request.getSession().setAttribute(Constants.ORDER_PRICE, null);
         }else {
             int orderPrice = 0;
             for (Dish dishFromOrder : dishes) {
                 orderPrice += dishFromOrder.getAmount() * dishFromOrder.getPrice();
             }
-            request.getSession().setAttribute("orderPrice", orderPrice);
+            request.getSession().setAttribute(Constants.ORDER_PRICE, orderPrice);
         }
-        request.getSession().setAttribute("userOrder", dishes);
+        request.getSession().setAttribute(Constants.USER_ORDER, dishes);
         RequestDispatcher dispatcher = request.getRequestDispatcher(Constants.ORDER_PAGE);
         dispatcher.forward(request, response);
     }

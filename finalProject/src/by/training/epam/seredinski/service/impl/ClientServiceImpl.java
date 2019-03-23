@@ -34,7 +34,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public User registration(String email, String password, String login, String name, String surname, User.UserRole role) throws ServiceException {
-        User user = new User(name, password, email, login, password, role);
+        User user = new User(name, surname, email, login, password, role);
         System.out.println(user.toString());
         if (!ValidateUtil.validateUser(user)) {
             System.out.println("SOSI");

@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import by.training.epam.seredinski.constant.Constants;
 import by.training.epam.seredinski.controller.command.Command;
 
 public class ChangeLocale implements Command {
@@ -21,7 +22,7 @@ public class ChangeLocale implements Command {
 		session = request.getSession(true);
 		session.setAttribute("local", newLocale);
 		
-		String url = (String)request.getSession(false).getAttribute("prev_request");
+		String url = (String)request.getSession(false).getAttribute(Constants.PREV_REQUEST);
 		response.sendRedirect(url);
 	}
 

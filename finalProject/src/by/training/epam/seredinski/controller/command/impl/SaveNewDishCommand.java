@@ -23,8 +23,8 @@ public class SaveNewDishCommand implements Command {
         String description = request.getParameter(Constants.PARAMETER_DESCRIPTION);
         String weight = request.getParameter(Constants.PARAMETER_WEIGHT);
         String price = request.getParameter(Constants.PARAMETER_PRICE);
-        request.setAttribute("dishTypes", Dish.DishType.values());
-        Dish.DishType type = Dish.DishType.valueOf(request.getParameter("type").toUpperCase());
+        request.setAttribute(Constants.PARAMETER_DISH_TYPE, Dish.DishType.values());
+        Dish.DishType type = Dish.DishType.valueOf(request.getParameter(Constants.PARAMETER_TYPE).toUpperCase());
 
         HttpSession session = request.getSession(false);
 
@@ -38,7 +38,7 @@ public class SaveNewDishCommand implements Command {
                 dish = service.updateDish(Integer.parseInt(id), name, description, type, Integer.parseInt(weight), Integer.parseInt(price));
                 //!!!!!!!Даже после изменения блюда все еще храниться в сессии и вызывается при создании нового блюда!!!!!!!
             }
-            request.getSession(true).setAttribute("dish", dish);
+            request.getSession(true).setAttribute(Constants.DISH, dish);
             page = Constants.REDIRECT_DISH_PAGE;
         } catch (ServiceException | NumberFormatException e) {
             session.setAttribute("error", "Something is wrong ;)");

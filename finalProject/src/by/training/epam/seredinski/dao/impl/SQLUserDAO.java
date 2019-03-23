@@ -1,5 +1,6 @@
 package by.training.epam.seredinski.dao.impl;
 
+import by.training.epam.seredinski.constant.Constants;
 import by.training.epam.seredinski.dao.UserDAO;
 import by.training.epam.seredinski.entity.User;
 import by.training.epam.seredinski.exception.DaoException;
@@ -41,13 +42,13 @@ public class SQLUserDAO implements UserDAO {
 
     private User createUser(ResultSet resultSet) throws SQLException {
         User user = new User();
-        user.setId(resultSet.getInt("id"));
-        user.setName(resultSet.getString("name"));
-        user.setSurname(resultSet.getString("surname"));
-        user.setMail(resultSet.getString("mail"));
-        user.setLogin(resultSet.getString("login"));
-        user.setPassword(resultSet.getString("password"));
-        user.setRole(User.UserRole.valueOf(resultSet.getString("role")));
+        user.setId(resultSet.getInt(Constants.PARAMETER_ID));
+        user.setName(resultSet.getString(Constants.PARAMETER_NAME));
+        user.setSurname(resultSet.getString(Constants.PARAMETER_SURNAME));
+        user.setMail(resultSet.getString(Constants.PARAMETER_MAIL));
+        user.setLogin(resultSet.getString(Constants.PARAMETER_LOGIN));
+        user.setPassword(resultSet.getString(Constants.PARAMETER_LOGIN));
+        user.setRole(User.UserRole.valueOf(resultSet.getString(Constants.PARAMETER_ROLE)));
         return user;
 
     }
@@ -57,7 +58,6 @@ public class SQLUserDAO implements UserDAO {
         Connection connection = ConnectionPool.getInstance().takeConnection();
         PreparedStatement statement = null;
 
-        System.out.println("reg");
         try {
             connection.setAutoCommit(false);
             statement = connection.prepareStatement(CREATE_USER);

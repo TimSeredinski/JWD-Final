@@ -83,8 +83,10 @@ public class SQLDishDAO implements DishDAO {
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 Dish dish = getDishWithResultSet(resultSet);
-                dish.setAmount(resultSet.getInt(Constants.PARAMETER_COUNT_OF_DISHES));
-                dishes.add(dish);
+                if (dish != null) {
+                    dish.setAmount(resultSet.getInt(Constants.PARAMETER_COUNT_OF_DISHES));
+                    dishes.add(dish);
+                }
             }
         } catch (SQLException e) {
             throw new DaoException(e);
@@ -98,7 +100,6 @@ public class SQLDishDAO implements DishDAO {
     public void deleteDish(int dishId) throws DaoException {
         Connection connection = ConnectionPool.getInstance().takeConnection();
         PreparedStatement statement;
-
         try {
             connection.setAutoCommit(false);
             statement = connection.prepareStatement(DELETE_DISH);
@@ -156,6 +157,10 @@ public class SQLDishDAO implements DishDAO {
     private Dish getDishWithResultSet(ResultSet resultSet) throws SQLException {
         int id = resultSet.getInt(Constants.PARAMETER_ID);
         String name = resultSet.getString(Constants.PARAMETER_NAME);
+        if (name == null) {
+            System.out.println("null");
+            return null;
+        }
         String description = resultSet.getString(Constants.PARAMETER_DESCRIPTION);
         int weight = resultSet.getInt(Constants.PARAMETER_WEIGHT);
         int price = resultSet.getInt(Constants.PARAMETER_PRICE);

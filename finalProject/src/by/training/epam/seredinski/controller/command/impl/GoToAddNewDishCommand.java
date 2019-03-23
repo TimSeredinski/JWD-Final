@@ -17,8 +17,8 @@ public class GoToAddNewDishCommand implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String url = CreatorFullURL.create(request);
-        request.getSession(true).setAttribute("prev_request", url);
-        request.setAttribute("dishTypes", Dish.DishType.values());
+        request.getSession(true).setAttribute(Constants.PREV_REQUEST, url);
+        request.setAttribute(Constants.PARAMETER_DISH_TYPE, Dish.DishType.values());
         RequestDispatcher dispatcher = request.getRequestDispatcher(Constants.NEW_DISH_FORM);
         dispatcher.forward(request, response);
 

@@ -22,17 +22,17 @@ public class AddToOrderCommand implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int dishId = Integer.parseInt(request.getParameter("orderDishId"));
+        int dishId = Integer.parseInt(request.getParameter(Constants.ORDER_DISH_ID));
         ServiceProvider provider = ServiceProvider.getInstance();
         DishService service = provider.getDishService();
         Dish dish = null;
         try {
             dish = service.getById(dishId);
             LinkedHashSet<Dish> userOrder;
-            if (request.getSession().getAttribute("userOrder") == null) {
+            if (request.getSession().getAttribute(Constants.USER_ORDER) == null) {
                 userOrder = new LinkedHashSet<>();
             } else {
-                userOrder = (LinkedHashSet<Dish>) request.getSession().getAttribute("userOrder");
+                userOrder = (LinkedHashSet<Dish>) request.getSession().getAttribute(Constants.USER_ORDER);
             }
             if (userOrder.contains(dish)) {
                 for (Dish dishInOrder : userOrder) {
@@ -47,8 +47,8 @@ public class AddToOrderCommand implements Command {
             for (Dish dishFromOrder : userOrder) {
                 orderPrice += dishFromOrder.getAmount() * dishFromOrder.getPrice();
             }
-            request.getSession().setAttribute("orderPrice", orderPrice);
-            request.getSession().setAttribute("userOrder", userOrder);
+            request.getSession().setAttribute(Constants.ORDER_PRICE, orderPrice);
+            request.getSession().setAttribute(Constants.USER_ORDER, userOrder);
         } catch (ServiceException e) {
             logger.error("Exception in AddToOrderCommand", e);
         }
@@ -60,7 +60,7 @@ public class AddToOrderCommand implements Command {
             } else {
                 dishes = service.getByType(Dish.DishType.PIZZA);
             }
-            request.setAttribute("dishes", dishes);
+            request.setAttribute(Constants.DISHES, dishes);
         } catch (ServiceException e) {
             request.setAttribute("error", "Can't display dishes");
         }

@@ -16,7 +16,7 @@ public class GoToInfoDishCommand implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String url = CreatorFullURL.create(request);
-        request.getSession(true).setAttribute("prev_request", url);
+        request.getSession(true).setAttribute(Constants.PREV_REQUEST, url);
         RequestDispatcher dispatcher = request.getRequestDispatcher(Constants.DISH_INFO_PAGE);
         dispatcher.forward(request, response);
 

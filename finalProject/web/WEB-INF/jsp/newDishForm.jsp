@@ -33,7 +33,7 @@ ${name}:
     <br/>
     ${type}
     <select size="1" name="type">
-        <c:forEach items="${dishTypes}" var="type">
+        <c:forEach items="${dishType}" var="type">
             <option value="${type.toString()}">
                 <fmt:message key="locale.dish.type.${type.toString().toLowerCase()}" bundle="${loc}"/>
             </option>
@@ -49,10 +49,6 @@ ${name}:
 
     <input type="submit" name="submit" value=${submit}>
 </form>
-
-<h3>
-    <c:out value="${sessionScope.error}"/>
-</h3>
 <h2>
     <a href="controller?command=go_to_default">${main_page}</a>
 </h2>

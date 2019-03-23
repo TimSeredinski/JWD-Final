@@ -11,6 +11,7 @@ import by.training.epam.seredinski.service.AddressService;
 import by.training.epam.seredinski.service.OrderService;
 import by.training.epam.seredinski.service.ServiceProvider;
 
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -40,6 +41,7 @@ public class OrderServiceImpl implements OrderService {
             for(Order order : orders){
                 order.setDishes(dishDAO.getOrderDishes(order.getId()));
             }
+            System.out.println(Arrays.toString(orders.toArray()));
             return orders;
         } catch (DaoException e) {
             throw new ServiceException(e);

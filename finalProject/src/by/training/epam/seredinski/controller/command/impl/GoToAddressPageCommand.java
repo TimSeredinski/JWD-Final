@@ -20,7 +20,7 @@ public class GoToAddressPageCommand implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String url = CreatorFullURL.create(request);
         HttpSession session = request.getSession();
-        session.setAttribute("prev_request", url);
+        session.setAttribute(Constants.PREV_REQUEST, url);
         RequestDispatcher dispatcher = request.getRequestDispatcher(Constants.ADDRESS_PAGE);
         dispatcher.forward(request, response);
     }
