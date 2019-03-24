@@ -15,5 +15,7 @@
 
 <c:import url="/WEB-INF/jsp/header.jsp"/>
 
+<header class="custom-header main-page-header">
+</header>
 </body>
 </html>

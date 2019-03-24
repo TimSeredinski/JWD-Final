@@ -20,7 +20,7 @@ public class SQLDishDAO implements DishDAO {
     protected static final String DELETE_DISH = "DELETE FROM dishes WHERE id=?";
     protected static final String GET_DISHES_BY_TYPE = "SELECT * FROM dishes WHERE type=?";
     protected static final String GET_DISHES_BY_ID = "SELECT * FROM dishes WHERE id=?";
-    private static final String GET_DISHES_FOR_ORDER = "SELECT  d.id AS id, d.name AS name, d.type AS type, d.description AS description, d.weight AS weight, d.price AS price, od.count_dishes AS count_dishes FROM order_dish od LEFT JOIN dishes d ON od.dishId = d.id WHERE od.orderId=?";
+    protected static final String GET_DISHES_FOR_ORDER = "SELECT  d.id AS id, d.name AS name, d.type AS type, d.description AS description, d.weight AS weight, d.price AS price, od.count_dishes AS count_dishes FROM order_dish od LEFT JOIN dishes d ON od.dishId = d.id WHERE od.orderId=?";
 
     @Override
     public void createDish(Dish dish) throws DaoException {
@@ -38,7 +38,7 @@ public class SQLDishDAO implements DishDAO {
             try {
                 connection.rollback();
             } catch (SQLException e1) {
-                throw new DaoException("Exception in SQLDishDAO.save()", e);
+                throw new DaoException(e);
             }
             throw new DaoException("Exception in SQLDishDAO.save()", e);
         } finally {
@@ -84,6 +84,7 @@ public class SQLDishDAO implements DishDAO {
             while (resultSet.next()) {
                 Dish dish = getDishWithResultSet(resultSet);
                 if (dish != null) {
+                    System.out.println("DOBAVIL");
                     dish.setAmount(resultSet.getInt(Constants.PARAMETER_COUNT_OF_DISHES));
                     dishes.add(dish);
                 }

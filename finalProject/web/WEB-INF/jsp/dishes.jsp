@@ -28,72 +28,79 @@
 
 <c:import url="/WEB-INF/jsp/header.jsp"/>
 
-<div class="container">
-    <h1>${menu}</h1>
-    <table class="table">
-        <thead class="thead-dark">
-        <tr>
-            <th scope="col"><fmt:message key="locale.dish.name" bundle="${loc}"/></th>
-            <th scope="col"><fmt:message key="locale.dish.description" bundle="${loc}"/></th>
-            <th scope="col"><fmt:message key="locale.dish.type" bundle="${loc}"/></th>
-            <th scope="col"><fmt:message key="locale.dish.weight" bundle="${loc}"/></th>
-            <th scope="col"><fmt:message key="locale.dish.price" bundle="${loc}"/></th>
-            <th scope="col"></th>
-            <c:choose>
-                <c:when test="${userRole == 'ADMIN'}">
-                    <th scope="col"></th>
-                </c:when>
-            </c:choose>
-        </tr>
-        </thead>
-        <tbody>
-        <c:forEach items="${dishes}" var="dish">
-        <jsp:useBean id="dish" class="by.training.epam.seredinski.entity.Dish" type="java.lang.Object" scope="request"/>
-        <tr>
-            <td><c:out value="${dish.name}"/></td>
-            <td><c:out value="${dish.description}"/></td>
-            <td><c:out value="${dish.type}"/></td>
-            <td><c:out value="${dish.weight}"/></td>
-            <td><c:out value="${dish.price}"/></td>
-            <c:choose>
-                <c:when test="${userRole == 'ADMIN'}">
-                    <td>
-                        <form action="controller" method="post">
-                            <input type="hidden" name="command" value="admin_update_dish">
-                            <input type="hidden" name="editedDishId" value="${dish.id}">
-                            <button class="btn btn-outline-secondary" type="submit">${change_dish_button}</button>
-                        </form>
-                    </td>
-                    <td>
-                        <form action="controller" method="post">
-                            <input type="hidden" name="command" value="admin_delete_dish">
-                            <input type="hidden" name="deletedDishId" value="${dish.id}">
-                            <button class="btn btn-outline-secondary" type="submit">${delete_dish_button}</button>
-                        </form>
-                    </td>
-                </c:when>
-                <c:when test="${userRole == 'CLIENT'}">
-                    <td>
-                        <form action="controller" method="post">
-                            <input type="hidden" name="command" value="client_add_to_order">
-                            <input type="hidden" name="orderDishId" value="${dish.id}">
-                            <button class="btn btn-outline-secondary" type="submit">${add_dish_to_order_button}</button>
-                        </form>
-                    </td>
-                </c:when>
-            </c:choose>
-        </tr>
-        </tbody>
-        </c:forEach>
-    </table>
-    <c:choose>
-        <c:when test="${userRole == 'ADMIN'}">
-            <form action="controller" method="post">
-                <input type="hidden" name="command" value="admin_go_to_add_new_dish_page">
-                <button class="btn btn-primary" type="submit">${add_dish}</button>
-            </form>
-        </c:when>
-    </c:choose>
+<header class="custom-header main-page-header">
+</header>
+<div class="dishes-context-container">
+    <div class="container main-div">
+        <h2>${menu}</h2>
+        <table class="table">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col"><fmt:message key="locale.dish.name" bundle="${loc}"/></th>
+                <th scope="col"><fmt:message key="locale.dish.description" bundle="${loc}"/></th>
+                <th scope="col"><fmt:message key="locale.dish.type" bundle="${loc}"/></th>
+                <th scope="col"><fmt:message key="locale.dish.weight" bundle="${loc}"/></th>
+                <th scope="col"><fmt:message key="locale.dish.price" bundle="${loc}"/></th>
+                <th scope="col"></th>
+                <c:choose>
+                    <c:when test="${userRole == 'ADMIN'}">
+                        <th scope="col"></th>
+                    </c:when>
+                </c:choose>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach items="${dishes}" var="dish">
+            <jsp:useBean id="dish" class="by.training.epam.seredinski.entity.Dish" type="java.lang.Object"
+                         scope="request"/>
+            <tr>
+                <td><c:out value="${dish.name}"/></td>
+                <td><c:out value="${dish.description}"/></td>
+                <td><c:out value="${dish.type}"/></td>
+                <td><c:out value="${dish.weight}"/></td>
+                <td><c:out value="${dish.price}"/></td>
+                <c:choose>
+                    <c:when test="${userRole == 'ADMIN'}">
+                        <td>
+                            <form action="controller" method="post">
+                                <input type="hidden" name="command" value="admin_update_dish">
+                                <input type="hidden" name="editedDishId" value="${dish.id}">
+                                <button class="btn btn-outline-secondary" type="submit">${change_dish_button}</button>
+                            </form>
+                        </td>
+                        <td>
+                            <form action="controller" method="post">
+                                <input type="hidden" name="command" value="admin_delete_dish">
+                                <input type="hidden" name="deletedDishId" value="${dish.id}">
+                                <button class="btn btn-outline-secondary" type="submit">${delete_dish_button}</button>
+                            </form>
+                        </td>
+                    </c:when>
+                    <c:when test="${userRole == 'CLIENT'}">
+                        <td>
+                            <form action="controller" method="post">
+                                <input type="hidden" name="command" value="client_add_to_order">
+                                <input type="hidden" name="orderDishId" value="${dish.id}">
+                                <button class="btn btn-outline-secondary" type="submit">
+                                        ${add_dish_to_order_button}
+                                </button>
+                            </form>
+                        </td>
+                    </c:when>
+                </c:choose>
+            </tr>
+            </tbody>
+            </c:forEach>
+        </table>
+        <c:choose>
+            <c:when test="${userRole == 'ADMIN'}">
+                <form action="controller" method="post">
+                    <input type="hidden" name="command" value="admin_go_to_add_new_dish_page">
+                    <button class="btn btn-primary" type="submit">${add_dish}</button>
+                </form>
+            </c:when>
+        </c:choose>
+    </div>
 </div>
 </body>
 </html>
