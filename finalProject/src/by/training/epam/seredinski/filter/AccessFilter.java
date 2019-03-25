@@ -24,20 +24,18 @@ public class AccessFilter implements Filter {
             session.setAttribute("userRole", User.UserRole.GUEST);
         }
         User.UserRole role = (User.UserRole) session.getAttribute("userRole");
-        System.out.println(role);
         StringBuffer requestURL = req.getRequestURL();
         if (req.getQueryString() != null) {
             requestURL.append("?").append(req.getQueryString());
         }
         String completeURL = requestURL.toString();
-        System.out.println(completeURL);
         User.UserRole[] rolesArray = {User.UserRole.ADMIN, User.UserRole.CLIENT, User.UserRole.GUEST};
         for (User.UserRole curRole : rolesArray) {
             Pattern p = Pattern.compile(".+?command=" + curRole.toString().toLowerCase() + "_.+");
             Matcher m = p.matcher(completeURL);
             if (m.matches() && role != curRole) {
                 request.setAttribute("errorText", "You can not access the requested page.");
-                request.getServletContext().getRequestDispatcher(Constants.ERROR_PAGE).forward(request, response);
+                request.getServletContext().getRequestDispatcher(Constants.ACCESS_DENIED_PAGE).forward(request, response);
             }
         }
         chain.doFilter(request, response);

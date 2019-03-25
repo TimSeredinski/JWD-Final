@@ -27,7 +27,7 @@ public class OrderServiceImpl implements OrderService {
         try {
             orderDAO.save(new Order(dateTime, userId, addressId, dishes));
         } catch (DaoException e) {
-            throw new ServiceException(e);
+            throw new ServiceException("Exception in OrderServiceImpl.saveOrder()", e);
         }
     }
 
@@ -41,10 +41,9 @@ public class OrderServiceImpl implements OrderService {
             for(Order order : orders){
                 order.setDishes(dishDAO.getOrderDishes(order.getId()));
             }
-            System.out.println(Arrays.toString(orders.toArray()));
             return orders;
         } catch (DaoException e) {
-            throw new ServiceException(e);
+            throw new ServiceException("Exception in OrderServiceImpl.getOrdersByUserId()", e);
         }
     }
 }

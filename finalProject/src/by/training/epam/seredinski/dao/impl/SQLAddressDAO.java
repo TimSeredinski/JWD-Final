@@ -49,9 +49,8 @@ public class SQLAddressDAO implements AddressDAO {
             try {
                 connection.rollback();
             } catch (SQLException e1) {
-                throw new DaoException("Exception in SQLAddressDAO.save()", e);
+                throw new DaoException(e1);
             }
-            logger.error("Exception in SQLAddressDAO.save()", e);
             throw new DaoException("Exception in SQLAddressDAO.save()", e);
         } finally {
             ConnectionPool.getInstance().closeConnection(connection, statement);
@@ -81,7 +80,7 @@ public class SQLAddressDAO implements AddressDAO {
             }
             return address;
         } catch (SQLException e) {
-            throw new DaoException(e);
+            throw new DaoException("Exception in SQLAddressDAO.getAddress()", e);
         } finally {
             ConnectionPool.getInstance().closeConnection(connection, statement, resultSet);
         }

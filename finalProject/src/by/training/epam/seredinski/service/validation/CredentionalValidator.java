@@ -7,12 +7,11 @@ public class CredentionalValidator {
 	}
 	
 	private static boolean isLoginCorrect(String login) {
-		return true;
+		return login.matches("^([A-Za-z0-9])+");
 	}
 	
 	private static boolean isPasswordCorrect(String password) {
-		return true;
+		return password.matches("^([A-Za-z0-9])+");
 	}
-
 
 }

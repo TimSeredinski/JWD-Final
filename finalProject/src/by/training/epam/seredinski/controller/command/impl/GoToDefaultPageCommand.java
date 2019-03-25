@@ -19,8 +19,10 @@ public class GoToDefaultPageCommand implements Command {
         String url = CreatorFullURL.create(request);
         HttpSession session = request.getSession();
         session.setAttribute(Constants.PREV_REQUEST, url);
+        session.removeAttribute("errorRegistrationMessage");
         RequestDispatcher dispatcher = request.getRequestDispatcher(Constants.DEFAULT_PAGE);
         dispatcher.forward(request, response);
+        session.removeAttribute("errorLoginMessage");
     }
 
 }

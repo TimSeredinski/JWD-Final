@@ -31,7 +31,7 @@ public class SQLUserDAO implements UserDAO {
             }
 
         } catch (SQLException e) {
-            throw new DaoException(e);
+            throw new DaoException("Exception in SQLUserDAO.authentification()", e);
         } finally {
             ConnectionPool.getInstance().closeConnection(connection, statement, resultSet);
         }
@@ -74,9 +74,9 @@ public class SQLUserDAO implements UserDAO {
             try {
                 connection.rollback();
             } catch (SQLException e1) {
-                throw new DaoException();
+                throw new DaoException(e1);
             }
-            throw new DaoException(e);
+            throw new DaoException("Exception in SQLUserDAO.registration()", e);
         } finally {
             ConnectionPool.getInstance().closeConnection(connection, statement);
         }

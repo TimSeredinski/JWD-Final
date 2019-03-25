@@ -65,7 +65,7 @@ public class SQLDishDAO implements DishDAO {
             } catch (SQLException e1) {
                 throw new DaoException(e);
             }
-            throw new DaoException(e);
+            throw new DaoException("Exception in SQLDishDAO.updateDish()", e);
         } finally {
             ConnectionPool.getInstance().closeConnection(connection, statement);
         }
@@ -84,13 +84,12 @@ public class SQLDishDAO implements DishDAO {
             while (resultSet.next()) {
                 Dish dish = getDishWithResultSet(resultSet);
                 if (dish != null) {
-                    System.out.println("DOBAVIL");
                     dish.setAmount(resultSet.getInt(Constants.PARAMETER_COUNT_OF_DISHES));
                     dishes.add(dish);
                 }
             }
         } catch (SQLException e) {
-            throw new DaoException(e);
+            throw new DaoException("Exception in SQLDishDAO.updateDish()", e);
         } finally {
             ConnectionPool.getInstance().closeConnection(connection, statement, resultSet);
         }
@@ -128,7 +127,7 @@ public class SQLDishDAO implements DishDAO {
             }
             return dishes;
         } catch (SQLException e) {
-            throw new DaoException(e);
+            throw new DaoException("Exception in SQLDishDAO.getByType()", e);
         } finally {
             ConnectionPool.getInstance().closeConnection(connection, statement, resultSet);
         }
@@ -149,7 +148,7 @@ public class SQLDishDAO implements DishDAO {
             }
             return dish;
         } catch (SQLException e) {
-            throw new DaoException(e);
+            throw new DaoException("Exception in SQLDishDAO.getById()", e);
         } finally {
             ConnectionPool.getInstance().closeConnection(connection, statement, resultSet);
         }
@@ -159,7 +158,6 @@ public class SQLDishDAO implements DishDAO {
         int id = resultSet.getInt(Constants.PARAMETER_ID);
         String name = resultSet.getString(Constants.PARAMETER_NAME);
         if (name == null) {
-            System.out.println("null");
             return null;
         }
         String description = resultSet.getString(Constants.PARAMETER_DESCRIPTION);

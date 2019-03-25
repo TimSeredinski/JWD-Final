@@ -12,6 +12,7 @@ public class Constants {
     public static final String ORDER_PAGE = "/WEB-INF/jsp/order.jsp";
     public static final String ADDRESS_PAGE = "/WEB-INF/jsp/address.jsp";
     public static final String USER_ORDERS_PAGE = "/WEB-INF/jsp/userOrders.jsp";
+    public static final String ACCESS_DENIED_PAGE = "/WEB-INF/jsp/accessDeniedPage.jsp";
     public static final String ERROR_PAGE = "/WEB-INF/jsp/errorPage.jsp";
 
     public static final String REDIRECT_COMMON = "/controller?command=";
@@ -44,6 +45,7 @@ public class Constants {
     public static final String PARAMETER_PRICE = "price";
     public static final String PARAMETER_DISH_TYPE = "dishType";
     public static final String PARAMETER_EDITED_DISH_ID = "editedDishId";
+    public static final String PARAMETER_EDITED_DISH = "editedDish";
     public static final String PARAMETER_DELETED_DISH_ID = "deletedDishId";
     public static final String PARAMETER_USER_ID = "userId";
     public static final String PARAMETER_ADDRESS_ID = "addressId";
@@ -54,4 +56,8 @@ public class Constants {
     public static final String PARAMETER_STREET = "street";
     public static final String PARAMETER_HOUSE = "house";
     public static final String PARAMETER_FLAT = "flat";
+
+    public static final String ERROR_REGISTRATION_MESSAGE = "You haven't been signed up";
+    public static final String ERROR_LOGIN_MESSAGE = "Wrong login or password";
+
 }

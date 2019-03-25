@@ -27,10 +27,8 @@ public class DeleteDishCommand implements Command {
         DishService service = provider.getDishService();
         Dish dish;
         List<Dish> dishes;
-        System.out.println("Command");
         try {
             dish = service.getById(dishId);
-            System.out.println(dish);
             service.deleteDish(dishId);
             if (dish != null) {
                 dishes = service.getByType(dish.getType());

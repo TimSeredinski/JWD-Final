@@ -12,9 +12,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 
 public class SaveNewOrderCommand implements Command {
@@ -29,12 +27,10 @@ public class SaveNewOrderCommand implements Command {
         int flat = Integer.parseInt(request.getParameter(Constants.PARAMETER_FLAT));
         int userId = (int) request.getSession().getAttribute(Constants.PARAMETER_USER_ID);
         Calendar time = Calendar.getInstance();
-        System.out.println(userId);
         ServiceProvider provider = ServiceProvider.getInstance();
         OrderService service = provider.getOrderService();
         try {
             LinkedHashSet<Dish> dishes = (LinkedHashSet<Dish>) request.getSession().getAttribute(Constants.USER_ORDER);
-            System.out.println("Dishes " + Arrays.toString(dishes.toArray()));
             service.saveOrder(city, street, house, flat, userId, time, dishes);
             request.getSession().setAttribute(Constants.USER_ORDER, null);
         } catch (ServiceException e) {

@@ -5,8 +5,8 @@
   Time: 23:31
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page language="java" contentType="text/html; charset=utf-8"
-         pageEncoding="utf-8" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
@@ -34,12 +34,12 @@
     <div class="container main-div">
         <form class="input-form" method="post" action="controller">
             <input type="hidden" name="command" value="client_save_new_order">
-            <input type="text" class="form-control card-input" name="city" value="Minsk" readonly>
-            <input type="text" pattern="^.{3,30}$" class="form-control card-input" name="street" value="${addr.street}"
-                   placeholder="${street}" required autofocus>
-            <input type="number" min="1" class="form-control card-input" name="house" value="${addr.house}"
+            <input type="text" class="form-control form-group" name="city" value="Minsk" readonly>
+            <input type="text" pattern="^.{3,30}$" class="form-control form-group" name="street" value="${addr.street}"
+                   placeholder="${street}" required >
+            <input type="number" min="1" class="form-control form-group" name="house" value="${addr.house}"
                    placeholder="${house}" required>
-            <input type="number" min="1" class="form-control card-input" name="flat" value="${addr.flat}"
+            <input type="number" min="1" class="form-control form-group" name="flat" value="${addr.flat}"
                    placeholder="${flat}" required>
             <button class="btn btn-outline-success" type="submit">${make_order}</button>
         </form>

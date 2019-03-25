@@ -15,18 +15,16 @@ public class ClientServiceImpl implements ClientService {
     public User authorization(String login, String password) throws ServiceException {
 
         if (!CredentionalValidator.isCorrect(login, password)) {
-            throw new ServiceException();
+            throw new ServiceException("Exception in UserServiceImpl.authorization(), cause the User object is invalid");
         }
 
         DAOProvider daoProvider = DAOProvider.getInstance();
         UserDAO userDAO = daoProvider.getUserDAO();
-
         User user = null;
-
         try {
             user = userDAO.authentification(login, password);
         } catch (DaoException e) {
-            throw new ServiceException(e);
+            throw new ServiceException("Exception in ClientServiceImpl.authorization()", e);
         }
 
         return user;
@@ -35,10 +33,8 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public User registration(String email, String password, String login, String name, String surname, User.UserRole role) throws ServiceException {
         User user = new User(name, surname, email, login, password, role);
-        System.out.println(user.toString());
         if (!ValidateUtil.validateUser(user)) {
-            System.out.println("SOSI");
-            throw new ServiceException("Not valid user");
+            throw new ServiceException("Exception in UserServiceImpl.registration(), cause the User object is invalid");
         }
         DAOProvider daoProvider = DAOProvider.getInstance();
         UserDAO userDAO = daoProvider.getUserDAO();
@@ -46,7 +42,7 @@ public class ClientServiceImpl implements ClientService {
         try {
             userDAO.registration(user);
         } catch (DaoException e) {
-            throw new ServiceException(e);
+            throw new ServiceException("Exception in ClientServiceImpl.registration()", e);
         }
 
         return user;

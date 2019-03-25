@@ -15,20 +15,17 @@ public class DishServiceImpl implements DishService {
     @Override
     public Dish createDish(String name, String description, Dish.DishType type, int weight, int price) throws ServiceException {
         Dish dish = new Dish(name, description, type, weight, price);
-
         if (!ValidateUtil.validateDish(dish)) {
-            System.out.println("not valid");
-            throw new ServiceException("Not valid dish");
-        }
+            throw new ServiceException("Exception in DishServiceImpl.createDish(), cause the Dish object is invalid");
 
+        }
         DAOProvider daoProvider = DAOProvider.getInstance();
         DishDAO dishDAO = daoProvider.getDishDAO();
-
         try {
-            System.out.println("DaoService create");
             dishDAO.createDish(dish);
         } catch (DaoException e) {
-            throw new ServiceException(e);
+            throw new ServiceException("Exception in DishServiceImpl.createDish()", e);
+
         }
         return dish;
     }
@@ -36,20 +33,15 @@ public class DishServiceImpl implements DishService {
     @Override
     public Dish updateDish(int id, String name, String description, Dish.DishType type, int weight, int price) throws ServiceException {
         Dish dish = new Dish(id, name, description, type, weight, price);
-
         if (!ValidateUtil.validateDish(dish)) {
-            System.out.println("not valid");
-            throw new ServiceException("Not valid dish");
+            throw new ServiceException("Exception in DishServiceImpl.updateDish(), cause the Dish object is invalid");
         }
-
         DAOProvider daoProvider = DAOProvider.getInstance();
         DishDAO dishDAO = daoProvider.getDishDAO();
-
         try {
-            System.out.println("DaoService update");
             dishDAO.updateDish(dish);
         } catch (DaoException e) {
-            throw new ServiceException(e);
+            throw new ServiceException("Exception in DishServiceImpl.updateDish()", e);
         }
         return dish;
     }
@@ -58,11 +50,10 @@ public class DishServiceImpl implements DishService {
     public void deleteDish(int dishId) throws ServiceException {
         DAOProvider daoProvider = DAOProvider.getInstance();
         DishDAO dishDAO = daoProvider.getDishDAO();
-        System.out.println("delete dish");
         try {
             dishDAO.deleteDish(dishId);
         } catch (DaoException e) {
-            throw new ServiceException(e);
+            throw new ServiceException("Exception in DishServiceImpl.deleteDish()", e);
         }
     }
 
@@ -74,7 +65,7 @@ public class DishServiceImpl implements DishService {
         try {
             return dishDAO.getByType(type);
         } catch (DaoException e) {
-            throw new ServiceException(e);
+            throw new ServiceException("Exception in DishServiceImpl.getByType()", e);
         }
     }
 
@@ -82,11 +73,10 @@ public class DishServiceImpl implements DishService {
     public Dish getById(int id) throws ServiceException {
         DAOProvider daoProvider = DAOProvider.getInstance();
         DishDAO dishDAO = daoProvider.getDishDAO();
-        System.out.println("getById");
         try {
             return dishDAO.getById(id);
         } catch (DaoException e) {
-            throw new ServiceException(e);
+            throw new ServiceException("Exception in DishServiceImpl.getById()", e);
         }
     }
 }

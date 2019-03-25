@@ -27,7 +27,6 @@ public class RegistrationCommand implements Command {
         String login = request.getParameter(Constants.PARAMETER_LOGIN);
         String name = request.getParameter(Constants.PARAMETER_NAME);
         String surname = request.getParameter(Constants.PARAMETER_SURNAME);
-        System.out.println(surname);
         ServiceProvider provider = ServiceProvider.getInstance();
         ClientService service = provider.getClientService();
         User user;
@@ -36,16 +35,16 @@ public class RegistrationCommand implements Command {
             User.UserRole role = User.UserRole.CLIENT;
             user = service.registration(email, password, login, name, surname, role);
             if (user == null) {
-                page = Constants.REGISTRATION_PAGE;
+                page = Constants.REDIRECT_REGISTRATION;
+                request.getSession().setAttribute("errorRegistrationMessage", Constants.ERROR_REGISTRATION_MESSAGE);
             } else {
                 page = Constants.REDIRECT_MAIN_PAGE;
-                System.out.println("create new user");
             }
         } catch (ServiceException e) {
+            request.getSession().setAttribute("errorRegistrationMessage", Constants.ERROR_REGISTRATION_MESSAGE);
             page = Constants.REDIRECT_REGISTRATION;
-            logger.log(Level.ERROR, "Exception in RegistrationCommand");
+            logger.error("Exception in RegistrationCommand", e);
         }
-
         response.sendRedirect(Constants.REDIRECT_COMMON + page);
 
     }

@@ -2,6 +2,8 @@
 *.jar
 *.war
 *.ear
+*.js
+*.css
 
 # Idea
 .idea

@@ -15,7 +15,6 @@ public class LogoutCommand implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("Logout");
         request.getSession().invalidate();
         response.sendRedirect(Constants.REDIRECT_COMMON + Constants.REDIRECT_MAIN_PAGE);
     }

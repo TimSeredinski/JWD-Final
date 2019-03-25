@@ -42,9 +42,8 @@ public class SQLOrderDAO implements OrderDAO {
             try {
                 connection.rollback();
             } catch (SQLException e1) {
-                throw new DaoException("Exception in SQLOrderDAO.save()", e);
+                throw new DaoException(e);
             }
-            logger.error("Exception in SQLOrderDAO.save()", e);
             throw new DaoException("Exception in SQLOrderDAO.save()", e);
         } finally {
             ConnectionPool.getInstance().closeConnection(connection, statement);
@@ -68,7 +67,6 @@ public class SQLOrderDAO implements OrderDAO {
             } catch (SQLException e1) {
                 throw new DaoException(e);
             }
-            logger.error("Exception in SQLOrderDAO.save()", e);
             throw new DaoException("Exception in SQLOrderDAO.save()", e);
         } finally {
             ConnectionPool.getInstance().closeConnection(connection, statement);

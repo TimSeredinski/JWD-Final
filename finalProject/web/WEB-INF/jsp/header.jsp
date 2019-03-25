@@ -5,8 +5,8 @@
   Time: 12:13
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page language="java" contentType="text/html; charset=utf-8"
-         pageEncoding="utf-8" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <fmt:setLocale value="${sessionScope.local}"/>
@@ -34,7 +34,7 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
-        <div class="header-nav col-8">
+        <div class="header-nav col-9">
             <li>
                 <a class="nav-link header-link" href="controller?command=go_to_default"> ${main_page}</a>
             </li>
@@ -71,7 +71,7 @@
                 </c:when>
             </c:choose>
         </div>
-        <div class="header-nav col-4 header-nav-right">
+        <div class="header-nav col-3 header-nav-right">
             <li class="">
                 <form action="controller" method="post">
                     <input type="hidden" name="command" value="change_locale">

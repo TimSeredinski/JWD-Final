@@ -6,6 +6,7 @@ import by.training.epam.seredinski.entity.Dish;
 import by.training.epam.seredinski.exception.ServiceException;
 import by.training.epam.seredinski.service.DishService;
 import by.training.epam.seredinski.service.ServiceProvider;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +15,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class SaveNewDishCommand implements Command {
+
+    private final static Logger logger = Logger.getLogger(SaveNewDishCommand.class);
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -26,8 +29,7 @@ public class SaveNewDishCommand implements Command {
         request.setAttribute(Constants.PARAMETER_DISH_TYPE, Dish.DishType.values());
         Dish.DishType type = Dish.DishType.valueOf(request.getParameter(Constants.PARAMETER_TYPE).toUpperCase());
 
-        HttpSession session = request.getSession(false);
-
+        request.getSession(true).removeAttribute(Constants.PARAMETER_EDITED_DISH);
         ServiceProvider provider = ServiceProvider.getInstance();
         DishService service = provider.getDishService();
         Dish dish;
@@ -36,12 +38,11 @@ public class SaveNewDishCommand implements Command {
                 dish = service.createDish(name, description, type, Integer.parseInt(weight), Integer.parseInt(price));
             } else {
                 dish = service.updateDish(Integer.parseInt(id), name, description, type, Integer.parseInt(weight), Integer.parseInt(price));
-                //!!!!!!!Даже после изменения блюда все еще храниться в сессии и вызывается при создании нового блюда!!!!!!!
             }
             request.getSession(true).setAttribute(Constants.DISH, dish);
             page = Constants.REDIRECT_DISH_PAGE;
         } catch (ServiceException | NumberFormatException e) {
-            session.setAttribute("error", "Something is wrong ;)");
+            logger.error("Exception in SaveNewDishCommand", e);
             page = Constants.REDIRECT_CREATE_DISH_PAGE;
         }
         response.sendRedirect(Constants.REDIRECT_COMMON + page);

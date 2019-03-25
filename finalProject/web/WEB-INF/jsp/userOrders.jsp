@@ -5,8 +5,8 @@
   Time: 21:06
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page language="java" contentType="text/html; charset=utf-8"
-         pageEncoding="utf-8" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <html>
@@ -25,8 +25,10 @@
 <fmt:message bundle="${loc}" key="locale.default.history" var="orders"/>
 <c:import url="/WEB-INF/jsp/header.jsp"/>
 
-<div class="main-div">
-    <div class="container">
+<header class="custom-header main-page-header">
+</header>
+<div class="dishes-context-container">
+    <div class="container main-div">
         <h2>${orders}</h2>
         <c:choose>
             <c:when test="${userOrders != null}">

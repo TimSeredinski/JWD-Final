@@ -20,24 +20,22 @@ public class AuthorizationCommand implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         String login = request.getParameter(Constants.PARAMETER_LOGIN);
         String password = Encryption.encryptPassword(request.getParameter(Constants.PARAMETER_PASSWORD));
 
         ServiceProvider provider = ServiceProvider.getInstance();
         ClientService service = provider.getClientService();
-
         try {
             User user = service.authorization(login, password);
 
             if (user == null) {
-                request.setAttribute("error", "login or password error");
+                request.getSession().setAttribute("errorLoginMessage", Constants.ERROR_LOGIN_MESSAGE);
             } else {
                 request.getSession().setAttribute("userRole", user.getRole());
                 request.getSession().setAttribute("userId", user.getId());
             }
         } catch (ServiceException e) {
-            request.setAttribute("error", "Login or Password Error");
+            request.getSession().setAttribute("errorLoginMessage", Constants.ERROR_LOGIN_MESSAGE);
             logger.error("Exception in AuthorizationCommand", e);
         }
         response.sendRedirect(Constants.REDIRECT_COMMON + Constants.REDIRECT_MAIN_PAGE);

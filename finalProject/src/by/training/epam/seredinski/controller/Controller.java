@@ -32,8 +32,15 @@ public class Controller extends HttpServlet {
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setCharacterEncoding("UTF-8");
         String commandName = request.getParameter(PARAMETER_COMMAND);
         Command command = provider.getCommand(commandName);
-        command.execute(request, response);
+
+        if (command != null) {
+            command.execute(request, response);
+        } else {
+            request.getRequestDispatcher(Constants.ACCESS_DENIED_PAGE).forward(request, response);
+        }
+
     }
 }

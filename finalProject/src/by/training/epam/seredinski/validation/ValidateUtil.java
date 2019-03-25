@@ -1,5 +1,6 @@
 package by.training.epam.seredinski.validation;
 
+import by.training.epam.seredinski.entity.Address;
 import by.training.epam.seredinski.entity.Dish;
 import by.training.epam.seredinski.entity.User;
 
@@ -25,6 +26,12 @@ public class ValidateUtil {
 
     public static boolean validateDish(Dish dish) {
         return (check(dish.getName(), STRING_FIELD) && dish.getWeight() > 0 && dish.getPrice() >= 0);
+    }
+
+    public static boolean validateAddress (Address address) {
+        return (check(address.getStreet(), STRING_FIELD) &&
+                (address.getHouse() >= 1) &&
+                (address.getFlat() >= 1));
     }
 
     private static boolean check(String string, String regEx) {
