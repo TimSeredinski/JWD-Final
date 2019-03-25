@@ -34,7 +34,6 @@ public class AccessFilter implements Filter {
             Pattern p = Pattern.compile(".+?command=" + curRole.toString().toLowerCase() + "_.+");
             Matcher m = p.matcher(completeURL);
             if (m.matches() && role != curRole) {
-                request.setAttribute("errorText", "You can not access the requested page.");
                 request.getServletContext().getRequestDispatcher(Constants.ACCESS_DENIED_PAGE).forward(request, response);
             }
         }
